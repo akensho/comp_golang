@@ -3,13 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
 )
 
 var (
-	in = bufio.NewReader(os.Stdin)
+	in  = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
 )
 
 func readln() string {
@@ -45,27 +47,33 @@ func intSlice() []int {
 	return slice
 }
 
-func read() (T int, t []int) {
-	line := intSlice()
-	T = line[1]
-	t = intSlice()
-	return T, t
-}
+var (
+	sur uint64 = 1000000007
+)
 
-func minInt(a, b int) int {
-	if a < b {
-		return a
+func f(n int) uint64 {
+	if n == 0 {
+		return 1
 	}
-	return b
+	memo := make([]uint64, n+1)
+	memo[0] = 1
+	for i := 1; i < len(memo); i++ {
+		memo[i] = (memo[i-1] * uint64(i)) % sur
+	}
+	return memo[n]
 }
 
 func main() {
-	T, t := read()
-
-	x := uint64(T)
-	for i := 0; i < len(t)-1; i++ {
-		x += uint64(minInt(T, t[i+1]-t[i]))
+	s := intSlice()
+	n := s[0]
+	m := s[1]
+	if n == m {
+		res := (((f(n) * f(m)) % sur) * 2) % sur
+		fmt.Println(res)
+	} else if math.Abs(float64(n)-float64(m)) < 2 {
+		res := (f(n) * f(m)) % sur
+		fmt.Println(res)
+	} else {
+		fmt.Println(0)
 	}
-	fmt.Println(x)
-
 }

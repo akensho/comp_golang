@@ -4,13 +4,34 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
 
 var (
-	in = bufio.NewReader(os.Stdin)
+	in        = bufio.NewReader(os.Stdin)
+	out       = bufio.NewWriter(os.Stdout)
+	MOD       = 1e9 + 7
+	UMOD      = uint64(1e9 + 7)
+	factorial []uint64
+	inverse   []uint64
 )
+
+func main() {
+	line := intSlice()
+	_ = line[0]
+	k := line[1]
+	l := intSlice()
+	sort.Sort(sort.IntSlice(l))
+	res := 0
+	for i := 0; i < k; i++ {
+		res += l[len(l)-i-1]
+	}
+	fmt.Println(res)
+}
+
+/* template functions */
 
 func readln() string {
 	buf := make([]byte, 0)
@@ -45,27 +66,25 @@ func intSlice() []int {
 	return slice
 }
 
-func read() (T int, t []int) {
-	line := intSlice()
-	T = line[1]
-	t = intSlice()
-	return T, t
+func IntMax(x, y int) int {
+	if x > y {
+		return x
+	} else {
+		return y
+	}
 }
 
-func minInt(a, b int) int {
-	if a < b {
-		return a
+func IntMin(x, y int) int {
+	if x < y {
+		return x
+	} else {
+		return y
 	}
-	return b
 }
 
-func main() {
-	T, t := read()
-
-	x := uint64(T)
-	for i := 0; i < len(t)-1; i++ {
-		x += uint64(minInt(T, t[i+1]-t[i]))
+func IntAbs(x int) int {
+	if x < 0 {
+		return -x
 	}
-	fmt.Println(x)
-
+	return x
 }

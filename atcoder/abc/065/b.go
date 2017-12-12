@@ -9,7 +9,8 @@ import (
 )
 
 var (
-	in = bufio.NewReader(os.Stdin)
+	in  = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
 )
 
 func readln() string {
@@ -45,27 +46,31 @@ func intSlice() []int {
 	return slice
 }
 
-func read() (T int, t []int) {
-	line := intSlice()
-	T = line[1]
-	t = intSlice()
-	return T, t
-}
-
-func minInt(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
-	T, t := read()
-
-	x := uint64(T)
-	for i := 0; i < len(t)-1; i++ {
-		x += uint64(minInt(T, t[i+1]-t[i]))
+	n := intSlice()[0]
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = intSlice()[0] - 1
 	}
-	fmt.Println(x)
-
+	b := make([]bool, n)
+	idx := 0
+	cnt := 0
+	f := true
+	for {
+		if idx == 1 {
+			break
+		}
+		if b[idx] {
+			f = false
+			break
+		}
+		b[idx] = true
+		idx = a[idx]
+		cnt++
+	}
+	if f {
+		fmt.Println(cnt)
+	} else {
+		fmt.Println(-1)
+	}
 }

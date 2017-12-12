@@ -5,41 +5,51 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
-func read() (a, b int) {
-	sc := initScanner()
-	sc.readln()
-	a, _ = strconv.Atoi(string(sc.buf[0]))
-	b, _ = strconv.Atoi(string(sc.buf[1]))
-	return a, b
-}
+var (
+	in  = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
+)
 
-func main() {
-	a, b := read()
-	fmt.Println(a, b)
-}
-
-type Scanner struct {
-	r   *bufio.Reader
-	buf []byte
-}
-
-func initScanner() *Scanner {
-	i := bufio.NewReaderSize(os.Stdin, 1000000)
-	b := make([]byte, 1000000)
-	return &Scanner{r: i, buf: b}
-}
-
-func (s *Scanner) readln() {
+func readln() string {
+	buf := make([]byte, 0)
 	for {
-		l, p, e := s.r.ReadLine()
-		if e != nil {
-			panic(e)
+		line, prefix, err := in.ReadLine()
+		if err != nil {
+			panic(err)
 		}
-		s.buf = append(s.buf, l...)
-		if !p {
+		buf = append(buf, line...)
+		if prefix == false {
 			break
 		}
 	}
+	return string(buf)
+}
+
+func strSlice() []string {
+	line := strings.Split(readln(), " ")
+	return line
+}
+
+func intSlice() []int {
+	line := strSlice()
+	slice := make([]int, 0)
+	for _, tmp := range line {
+		val, err := strconv.Atoi(tmp)
+		if err != nil {
+			panic(err)
+		}
+		slice = append(slice, val)
+	}
+	return slice
+}
+
+func main() {
+	l := intSlice()
+	a := l[0]
+	b := l[1]
+
+	fmt.Println((a + b) % 24)
 }
