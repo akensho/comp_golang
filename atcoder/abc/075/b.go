@@ -18,31 +18,52 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
+	row := ints()
+	h, w := row[0], row[1]
+	s := make([][]string, h)
+	cp := make([][]string, h)
 	for i, _ := range s {
-		s[i] = strv()
+		s[i] = make([]string, w)
+		cp[i] = make([]string, w)
+		r := strings.Split(strv(), "")
+		for j, _ := range r {
+			s[i][j] = r[j]
+		}
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
+	for i := 0; i < h; i++ {
+		for j := 0; j < w; j++ {
+			if s[i][j] == "." {
+				cp[i][j] = counter(s, i, j, h, w)
+			} else {
+				cp[i][j] = "#"
 			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
 		}
 	}
-	fmt.Println(string(ans))
+	print(cp)
+}
+
+func counter(a [][]string, y, x, h, w int) string {
+	dx := []int{1, 1, 1, 0, -1, -1, -1, 0}
+	dy := []int{1, 0, -1, -1, -1, 0, 1, 1}
+	res := 0
+	for i := 0; i < 8; i++ {
+		nx, ny := x+dx[i], y+dy[i]
+		if 0 <= nx && nx < w && 0 <= ny && ny < h {
+			if a[ny][nx] == "#" {
+				res++
+			}
+		}
+	}
+	return strconv.Itoa(res)
+}
+
+func print(a [][]string) {
+	for i, row := range a {
+		for j, _ := range row {
+			fmt.Print(a[i][j])
+		}
+		fmt.Println()
+	}
 }
 
 /* template functions */

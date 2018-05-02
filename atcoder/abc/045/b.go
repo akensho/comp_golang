@@ -18,31 +18,46 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
-	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
+	a := strings.Split(strv(), "")
+	b := strings.Split(strv(), "")
+	c := strings.Split(strv(), "")
+	next, a := discard(a)
+	winner := ""
+	for {
+		if next == "a" {
+			if check(a) {
+				winner = "A"
+				break
 			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+			next, a = discard(a)
+		} else if next == "b" {
+			if check(b) {
+				winner = "B"
+				break
+			}
+			next, b = discard(b)
+		} else if next == "c" {
+			if check(c) {
+				winner = "C"
+				break
+			}
+			next, c = discard(c)
 		}
 	}
-	fmt.Println(string(ans))
+	fmt.Println(winner)
+}
+
+func discard(p []string) (string, []string) {
+	next := p[0]
+	card := p[1:len(p)]
+	return next, card
+}
+
+func check(p []string) bool {
+	if len(p) == 0 {
+		return true
+	}
+	return false
 }
 
 /* template functions */

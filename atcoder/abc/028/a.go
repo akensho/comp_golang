@@ -19,30 +19,15 @@ var (
 
 func main() {
 	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	if n <= 59 {
+		fmt.Println("Bad")
+	} else if 60 <= n && n <= 89 {
+		fmt.Println("Good")
+	} else if 90 <= n && n <= 99 {
+		fmt.Println("Great")
+	} else {
+		fmt.Println("Perfect")
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
-	}
-	fmt.Println(string(ans))
 }
 
 /* template functions */

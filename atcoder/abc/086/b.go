@@ -18,31 +18,16 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
-	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+	row := strs()
+	a, b := row[0], row[1]
+	s, _ := strconv.Atoi(a + b)
+	for i := 1; i <= 1000000; i++ {
+		if i*i == s {
+			fmt.Println("Yes")
+			return
 		}
 	}
-	fmt.Println(string(ans))
+	fmt.Println("No")
 }
 
 /* template functions */

@@ -18,31 +18,37 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	c := make([][]int, 3)
+	for i, _ := range c {
+		c[i] = make([]int, 3)
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+	for i := 0; i < 3; i++ {
+		row := ints()
+		for j := 0; j < 3; j++ {
+			c[i][j] = row[j]
 		}
 	}
-	fmt.Println(string(ans))
+
+	for a0 := -10000; a0 <= 10000; a0++ {
+		b := make([]int, 0)
+		for j := 0; j < 3; j++ {
+			b = append(b, c[0][j]-a0)
+		}
+		if check(a0, b, c) {
+			fmt.Println("Yes")
+			return
+		}
+	}
+	fmt.Println("No")
+}
+
+func check(a int, b []int, c [][]int) bool {
+	if c[1][0]-b[0] == c[1][1]-b[1] && c[1][1]-b[1] == c[1][2]-b[2] {
+		if c[2][0]-b[0] == c[2][1]-b[1] && c[2][1]-b[1] == c[2][2]-b[2] {
+			return true
+		}
+	}
+	return false
 }
 
 /* template functions */

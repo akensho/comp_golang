@@ -18,31 +18,19 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	row := ints()
+	a, b, c := row[0], row[1], row[2]
+	m := map[int]struct{}{}
+	if _, ok := m[a]; !ok {
+		m[a] = struct{}{}
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
+	if _, ok := m[b]; !ok {
+		m[b] = struct{}{}
 	}
-	fmt.Println(string(ans))
+	if _, ok := m[c]; !ok {
+		m[c] = struct{}{}
+	}
+	fmt.Println(len(m))
 }
 
 /* template functions */

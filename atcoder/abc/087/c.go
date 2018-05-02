@@ -18,31 +18,29 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	_ = ints()
+	a := make([][]int, 2)
+	for i := 0; i < 2; i++ {
+		a[i] = ints()
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
+	res := dfs(0, 0, 0, a)
+	fmt.Println(res)
+}
+
+func dfs(x, y, sum int, field [][]int) int {
+	res := sum + field[y][x]
+	if y == 1 && x == len(field[0])-1 {
+		return res
 	}
-	fmt.Println(string(ans))
+	if y == 1 && x != len(field[0])-1 {
+		return dfs(x+1, y, res, field)
+	}
+	if x != len(field[0])-1 {
+		return max(dfs(x+1, y, res, field), dfs(x, y+1, res, field))
+	} else {
+		return dfs(x, y+1, res, field)
+	}
+	return -1
 }
 
 /* template functions */

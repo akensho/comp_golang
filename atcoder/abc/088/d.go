@@ -18,31 +18,32 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	row := ints()
+	h, w := row[0], row[1]
+	field := make([][]string, h)
+	for i, _ := range field {
+		field[i] = make([]string, w)
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+	for i := 0; i < h; i++ {
+		row := strv()
+		for j := 0; j < w; j++ {
+			field[i][j] = string(row[j])
 		}
 	}
-	fmt.Println(string(ans))
+	d := make([][]int, h)
+	for i, _ := range d {
+		d[i] = make([]int, w)
+	}
+
+	for j := 0; j < w; j++ {
+		if field[i][j] != "#" {
+			d[i][j] = 1
+		} else {
+			d[i][j] = 1 << 29
+		}
+	}
+
+	fmt.Println(field)
 }
 
 /* template functions */

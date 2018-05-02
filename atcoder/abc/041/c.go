@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -19,30 +20,34 @@ var (
 
 func main() {
 	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	a := ints()
+	stu := make([]orignal, n)
+	for i, v := range a {
+		stu[i].idx = i + 1
+		stu[i].value = v
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
+	sort.Sort(orignals(stu))
+	for _, s := range stu {
+		fmt.Println(s.idx)
 	}
-	fmt.Println(string(ans))
+}
+
+type orignal struct {
+	idx, value int
+}
+
+type orignals []orignal
+
+func (o orignals) Len() int {
+	return len(o)
+}
+
+func (o orignals) Less(i, j int) bool {
+	return o[i].value > o[j].value
+}
+
+func (o orignals) Swap(i, j int) {
+	o[i], o[j] = o[j], o[i]
 }
 
 /* template functions */
