@@ -18,31 +18,40 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	row := ints()
+	n, m := row[0], row[1]
+	matrix := make([][]int, n+1)
+	for i, _ := range matrix {
+		matrix[i] = make([]int, n+1)
+		for j := 0; j < n+1; j++ {
+			matrix[i][j] = 1 << 30
+		}
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
+	for i := 0; i < m; i++ {
+		row := ints()
+		a, b, t := row[0], row[1], row[2]
+		matrix[a][b] = t
+		matrix[b][a] = t
+	}
+	for k := 0; k < n+1; k++ {
+		for i := 0; i < n+1; i++ {
+			for j := 0; j < n+1; j++ {
+				matrix[i][j] = min(matrix[i][k]+matrix[k][j], matrix[i][j])
 			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
 		}
 	}
-	fmt.Println(string(ans))
+	res := 1 << 30
+	for i := 1; i < n+1; i++ {
+		tmp := 0
+		for j := 1; j < n+1; j++ {
+			if i == j {
+				continue
+			}
+			tmp = max(tmp, matrix[i][j])
+		}
+		res = min(tmp, res)
+	}
+	fmt.Println(res)
 }
 
 /* template functions */

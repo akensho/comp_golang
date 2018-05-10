@@ -18,31 +18,17 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	row := ints()
+	a, b, c, d := row[0], row[1], row[2], row[3]
+	l := a + b
+	r := c + d
+	if l == r {
+		fmt.Println("Balanced")
+	} else if l > r {
+		fmt.Println("Left")
+	} else {
+		fmt.Println("Right")
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
-	}
-	fmt.Println(string(ans))
 }
 
 /* template functions */

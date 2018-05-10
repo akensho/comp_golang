@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"container/list"
 	"fmt"
 	"os"
 	"strconv"
@@ -19,34 +18,81 @@ var (
 )
 
 func main() {
-	_ = intValue()
-	s := strValue()
+	s := strings.Split(strValue(), "")
+	row := intSlice()
+	x, y := row[0], row[1]
+	var p point
+	p.x, p.y, p.d = 0, 0, "r"
+	q := make([]point, 1)
+	q = append(q, p)
+	for _, v := range s {
+		if v == "T" {
+			np := q[0]
+			rp := np.t("r")
+			//			dp := np.t("d")
+			//			lp := np.t("l")
+			//			up := np.t("u")
+			q = append(q, rp)
+			//			q = append(q, dp)
+			//			q = append(q, lp)
+			//			q = append(q, up)
+		}
+		if v == "F" {
+			np := p.f()
+			q = append(q, np)
+		}
+	}
+	for _, qq := range q {
+		if check(qq, x, y) {
+			fmt.Println("Yes")
+			return
+		}
+	}
+	fmt.Println("No")
+}
 
-	stack := list.New()
-	for _, watch := range s {
-		if stack.Len() == 0 {
-			stack.PushFront(string(watch))
-			continue
-		}
-		top := stack.Front()
-		if top.Value == "(" && string(watch) == ")" {
-			stack.Remove(stack.Front())
-		} else {
-			stack.PushFront(string(watch))
-		}
+func check(p point, x int, y int) bool {
+	if p.x == x && p.y == y {
+		return true
 	}
-	left, right := "", ""
-	lengh := stack.Len()
-	for i := 0; i < lengh; i++ {
-		top := stack.Remove(stack.Front()).(string)
-		if top == "(" {
-			right += ")"
-		} else {
-			left += "("
-		}
+	return false
+}
+
+type point struct {
+	x int
+	y int
+	d string
+}
+
+func (p *point) f() point {
+	if p.d == "r" {
+		p.x++
+	} else if p.d == "d" {
+		p.y--
+	} else if p.d == "l" {
+		p.x--
+	} else if p.d == "u" {
+		p.y++
+	} else {
+		panic("")
 	}
-	ans := left + s + right
-	fmt.Println(ans)
+	return *p
+}
+
+func (p *point) t(dir string) point {
+	if dir == "r" {
+		p.d = "d"
+	} else if dir == "d" {
+		p.d = "l"
+	} else if dir == "l" {
+		p.d = "u"
+	} else if dir == "u" {
+		p.d = "l"
+	} else {
+		panic("")
+	}
+	return *p
+
 }
 
 /* template functions */

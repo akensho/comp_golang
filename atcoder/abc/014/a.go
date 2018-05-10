@@ -15,34 +15,34 @@ var (
 	UMOD      = uint64(1e9 + 7)
 	factorial []uint64
 	inverse   []uint64
+	INF       = 1 << 29
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	a, b := intValue(), intValue()
+	if a == b {
+		fmt.Println(0)
+		return
+	} else if a > b {
+		res := a % b
+		ans := b - res
+		fmt.Println(ans)
+		return
+	} else if a < b {
+		fmt.Println(b - a)
+		return
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
+}
+
+func warshallFloyd(a [][]int, x int) [][]int {
+	for k := 0; k < x; k++ {
+		for i := 0; i < x; i++ {
+			for j := 0; j < x; j++ {
+				a[i][j] = IntMin(a[i][j], a[i][k]+a[k][j])
 			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
 		}
 	}
-	fmt.Println(string(ans))
+	return a
 }
 
 /* template functions */
@@ -62,21 +62,21 @@ func readln() string {
 	return string(buf)
 }
 
-func strv() string {
-	return strs()[0]
+func strValue() string {
+	return strSlice()[0]
 }
 
-func strs() []string {
+func strSlice() []string {
 	line := strings.Split(readln(), " ")
 	return line
 }
 
-func intv() int {
-	return ints()[0]
+func intValue() int {
+	return intSlice()[0]
 }
 
-func ints() []int {
-	line := strs()
+func intSlice() []int {
+	line := strSlice()
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
@@ -88,7 +88,7 @@ func ints() []int {
 	return slice
 }
 
-func max(x, y int) int {
+func IntMax(x, y int) int {
 	if x > y {
 		return x
 	} else {
@@ -96,7 +96,7 @@ func max(x, y int) int {
 	}
 }
 
-func min(x, y int) int {
+func IntMin(x, y int) int {
 	if x < y {
 		return x
 	} else {
@@ -104,7 +104,7 @@ func min(x, y int) int {
 	}
 }
 
-func abs(x int) int {
+func IntAbs(x int) int {
 	if x < 0 {
 		return -x
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/big"
 	"os"
 	"strconv"
 	"strings"
@@ -18,31 +19,19 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
-	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
-	}
-	fmt.Println(string(ans))
+	row := strs()
+	aa, _ := strconv.ParseFloat(row[0], 64)
+	a := big.NewFloat(aa)
+	bb, _ := strconv.ParseFloat(row[1], 64)
+	b := big.NewFloat(bb)
+	xx, _ := strconv.ParseFloat(row[2], 64)
+	x := big.NewFloat(xx)
+
+	fmt.Printf("\n", f(b).Sub())
+}
+
+func f(f big.Float) big.Float {
+	return f
 }
 
 /* template functions */

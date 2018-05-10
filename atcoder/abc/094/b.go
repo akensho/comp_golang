@@ -18,31 +18,27 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	row := ints()
+	n, _, x := row[0], row[1], row[2]
+	A := ints()
+	a := make([]bool, n+1)
+	for i, _ := range A {
+		a[A[i]] = true
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+	c1 := 0
+	c2 := 0
+	for i := x; i <= n; i++ {
+		if a[i] {
+			c1++
 		}
 	}
-	fmt.Println(string(ans))
+	for i := x; i >= 0; i-- {
+		if a[i] {
+			c2++
+		}
+	}
+	ans := min(c1, c2)
+	fmt.Println(ans)
 }
 
 /* template functions */

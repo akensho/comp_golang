@@ -11,38 +11,29 @@ import (
 var (
 	in        = bufio.NewReader(os.Stdin)
 	out       = bufio.NewWriter(os.Stdout)
-	MOD       = 1e9 + 7
 	UMOD      = uint64(1e9 + 7)
 	factorial []uint64
 	inverse   []uint64
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	row := ints()
+	n, m := row[0], row[1]
+	if m == 1 {
+		fmt.Println(0)
+		return
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
+	if n >= m {
+		fmt.Println(m / 2)
+		return
+	} else {
+		ans := min(n, m/2)
+		n -= ans
+		m -= ans * 2
+		ans += m / 4
+		fmt.Println(ans)
+		return
 	}
-	fmt.Println(string(ans))
 }
 
 /* template functions */

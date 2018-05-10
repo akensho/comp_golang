@@ -18,31 +18,21 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	c := strv()
+	switch c {
+	case "a":
+		fmt.Println("vowel")
+	case "i":
+		fmt.Println("vowel")
+	case "u":
+		fmt.Println("vowel")
+	case "e":
+		fmt.Println("vowel")
+	case "o":
+		fmt.Println("vowel")
+	default:
+		fmt.Println("consonant")
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
-	}
-	fmt.Println(string(ans))
 }
 
 /* template functions */

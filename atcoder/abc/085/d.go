@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -18,31 +19,73 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	row := ints()
+	n, h := row[0], row[1]
+	s := make([]sord, n)
+	for i := 0; i < n; i++ {
+		row := ints()
+		s[i].a = row[0]
+		s[i].b = row[1]
+
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+	sort.Sort(sords(s))
+	bb := make([]b, 0)
+	for i, v := range s {
+		if v.b > s[0].a {
+			bb = append(bb, b{idx: i, value: v.b})
 		}
 	}
-	fmt.Println(string(ans))
+	sort.Sort(bs(bb))
+	cnt := 0
+	for _, v := range bb {
+		cnt++
+		h = h - v.value
+		if h <= 0 {
+			fmt.Println(cnt)
+			return
+		}
+	}
+	for h > 0 {
+		cnt++
+		h = h - s[0].a
+	}
+	fmt.Println(cnt)
+}
+
+type b struct {
+	idx, value int
+}
+
+type bs []b
+
+func (o bs) Len() int {
+	return len(o)
+}
+
+func (o bs) Less(i, j int) bool {
+	return o[i].value > o[j].value
+}
+
+func (o bs) Swap(i, j int) {
+	o[i], o[j] = o[j], o[i]
+}
+
+type sord struct {
+	a, b int
+}
+
+type sords []sord
+
+func (o sords) Len() int {
+	return len(o)
+}
+
+func (o sords) Less(i, j int) bool {
+	return o[i].a > o[j].a
+}
+
+func (o sords) Swap(i, j int) {
+	o[i], o[j] = o[j], o[i]
 }
 
 /* template functions */

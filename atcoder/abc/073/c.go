@@ -19,30 +19,16 @@ var (
 
 func main() {
 	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
-	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+	m := map[int]struct{}{}
+	for i := 0; i < n; i++ {
+		word := intv()
+		if _, ok := m[word]; ok {
+			delete(m, word)
+		} else {
+			m[word] = struct{}{}
 		}
 	}
-	fmt.Println(string(ans))
+	fmt.Println(len(m))
 }
 
 /* template functions */
@@ -102,11 +88,4 @@ func min(x, y int) int {
 	} else {
 		return y
 	}
-}
-
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
 }

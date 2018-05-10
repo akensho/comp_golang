@@ -18,31 +18,54 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	row := ints()
+	n, m := row[0], row[1]
+	adj := make([][]bool, n)
+	for i, _ := range adj {
+		adj[i] = make([]bool, n)
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
+	type edge struct {
+		from, to int
+	}
+	es := make([]edge, m)
+	for i := 0; i < m; i++ {
+		row = ints()
+		a, b := row[0]-1, row[1]-1
+		adj[a][b] = true
+		adj[b][a] = true
+		es[i].from = a
+		es[i].to = b
+	}
+	ans := 0
+	for _, e := range es {
+		adj[e.from][e.to] = false
+		adj[e.to][e.from] = false
+		visited := make([]bool, n)
+		visited = dfs(adj, visited, 0)
+		for _, v := range visited {
+			if !v {
+				ans++
+				break
 			}
-			m = min(m, cnt)
 		}
-		if m == 0 {
+		adj[e.from][e.to] = true
+		adj[e.to][e.from] = true
+	}
+	fmt.Println(ans)
+}
+
+func dfs(adj [][]bool, visited []bool, x int) []bool {
+	visited[x] = true
+	for v := 0; v < len(visited); v++ {
+		if !adj[x][v] {
 			continue
 		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+		if visited[v] {
+			continue
 		}
+		visited = dfs(adj, visited, v)
 	}
-	fmt.Println(string(ans))
+	return visited
 }
 
 /* template functions */

@@ -18,31 +18,39 @@ var (
 )
 
 func main() {
-	n := intv()
+	n := intValue()
 	s := make([]string, n)
 	for i, _ := range s {
-		s[i] = strv()
+		s[i] = strValue()
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
+	m := map[string]map[string]int{}
+	for _, str := range s {
+		arr := []rune(str)
+		for i := 0; i < len(arr); i++ {
+			cp := arr
+			for j := 0; j < len(arr); j++ {
+				if i == j {
+					continue
 				}
+				cp[i], cp[j] = cp[j], cp[i]
+				tmp := string(cp)
+				for x := 0; x < len(tmp); x++ {
+					for y := x; y < len(tmp); y++ {
+						sub := tmp[x:y]
+						fmt.Printf("str => %s\n", str)
+						fmt.Printf("tmp => %s, sub => %s\n", tmp, sub)
+						if _, ok := m[str][sub]; ok {
+							m[str][sub]++
+						} else {
+							fmt.Println(m[str][sub])
+							m[str][sub] = 1
+						}
+					}
+				}
+				//fmt.Println(string(cp))
 			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
 		}
 	}
-	fmt.Println(string(ans))
 }
 
 /* template functions */
@@ -62,21 +70,21 @@ func readln() string {
 	return string(buf)
 }
 
-func strv() string {
-	return strs()[0]
+func strValue() string {
+	return strSlice()[0]
 }
 
-func strs() []string {
+func strSlice() []string {
 	line := strings.Split(readln(), " ")
 	return line
 }
 
-func intv() int {
-	return ints()[0]
+func intValue() int {
+	return intSlice()[0]
 }
 
-func ints() []int {
-	line := strs()
+func intSlice() []int {
+	line := strSlice()
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
@@ -88,7 +96,7 @@ func ints() []int {
 	return slice
 }
 
-func max(x, y int) int {
+func IntMax(x, y int) int {
 	if x > y {
 		return x
 	} else {
@@ -96,7 +104,7 @@ func max(x, y int) int {
 	}
 }
 
-func min(x, y int) int {
+func IntMin(x, y int) int {
 	if x < y {
 		return x
 	} else {
@@ -104,7 +112,7 @@ func min(x, y int) int {
 	}
 }
 
-func abs(x int) int {
+func IntAbs(x int) int {
 	if x < 0 {
 		return -x
 	}

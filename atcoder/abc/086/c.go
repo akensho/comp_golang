@@ -19,30 +19,38 @@ var (
 
 func main() {
 	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	t := make([]int, n+1)
+	x := make([]int, n+1)
+	y := make([]int, n+1)
+	t[0] = 0
+	x[0] = 0
+	y[0] = 0
+	for i := 1; i <= n; i++ {
+		row := ints()
+		t[i], x[i], y[i] = row[0], row[1], row[2]
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
+	for i := 0; i < n; i++ {
+		dt := t[i+1] - t[i]
+		dx := abs(x[i+1] - x[i])
+		dy := abs(y[i+1] - y[i])
+		dp := dx + dy
+		//		fmt.Printf("dy = %d\n", dy)
+		//		fmt.Printf("dx = %d\n", dx)
+		//		fmt.Printf("dt = %d\n", dt)
+		//		fmt.Printf("dp = %d\n", dp)
+		if dt == dp {
 			continue
 		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+		if dt > dp {
+			if (dt-dp)%2 == 0 {
+				continue
+			}
 		}
+		fmt.Println("No")
+		return
+
 	}
-	fmt.Println(string(ans))
+	fmt.Println("Yes")
 }
 
 /* template functions */

@@ -11,7 +11,7 @@ import (
 var (
 	in        = bufio.NewReader(os.Stdin)
 	out       = bufio.NewWriter(os.Stdout)
-	MOD       = 1e9 + 7
+	MOD       = 1000000007
 	UMOD      = uint64(1e9 + 7)
 	factorial []uint64
 	inverse   []uint64
@@ -19,30 +19,53 @@ var (
 
 func main() {
 	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	d := make([]int, n)
+	for i, _ := range d {
+		d[i] = intv()
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
+	mmax := 0
+	for _, v := range d {
+		mmax += v
+	}
+	mmin := MOD
+	if n%3 == 0 {
+		f := true
+		rest := make([]int, 0)
+		for i := 0; i < n; i = i + 3 {
+			a, b, c := d[i], d[i+1], d[i+2]
+			if (a+b > c) && (b+c > a) && (c+a > b) {
+				continue
+			} else {
+				f = false
+				rest = d[i : len(d)-1]
+				break
 			}
-			m = min(m, cnt)
 		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+		if f {
+			mmin = 0
+			fmt.Println(mmax)
+			fmt.Println(mmin)
+			return
+		} else {
+			mmin = roundTrip(rest)
 		}
 	}
-	fmt.Println(string(ans))
+	mmin = min(mmin, roundTrip(d))
+	fmt.Println(mmax)
+	fmt.Println(mmin)
+}
+
+func roundTrip(a []int) (res int) {
+	f := true
+	for _, v := range a {
+		if f {
+			res = res + v
+		} else {
+			res = res - v
+		}
+		f = !f
+	}
+	return abs(res)
 }
 
 /* template functions */

@@ -20,29 +20,21 @@ var (
 func main() {
 	n := intv()
 	s := make([]string, n)
-	for i, _ := range s {
+	for i := 0; i < n; i++ {
 		s[i] = strv()
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+	set := make([]string, 0)
+	for _, v := range s {
+		letter := v[:1]
+		if letter == "M" || letter == "A" || letter == "R" || letter == "C" || letter == "H" {
+			set = append(set, v)
 		}
 	}
-	fmt.Println(string(ans))
+	if len(set) < 3 {
+		fmt.Println(0)
+		return
+	}
+	fmt.Println(set)
 }
 
 /* template functions */

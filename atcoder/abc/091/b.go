@@ -23,26 +23,27 @@ func main() {
 	for i, _ := range s {
 		s[i] = strv()
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
-		}
+	m := intv()
+	t := make([]string, m)
+	for i, _ := range t {
+		t[i] = strv()
 	}
-	fmt.Println(string(ans))
+	tmp := map[string]int{}
+	for _, v := range s {
+		tmp[v]++
+	}
+	for _, v := range t {
+		tmp[v]--
+	}
+	ans := -1
+	for _, v := range tmp {
+		ans = max(ans, v)
+	}
+	if ans < 0 {
+		fmt.Println(0)
+	} else {
+		fmt.Println(ans)
+	}
 }
 
 /* template functions */

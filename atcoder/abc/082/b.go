@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
-	"container/list"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -19,34 +19,47 @@ var (
 )
 
 func main() {
-	_ = intValue()
 	s := strValue()
+	t := strValue()
+	ss := make([]rune, 0)
+	tt := make([]rune, 0)
+	for _, v := range s {
+		ss = append(ss, v)
+	}
+	for _, v := range t {
+		tt = append(tt, v)
+	}
+	sort.Sort(RuneSlice(ss))
+	sort.Sort(RuneSlice(tt))
+	s_ := string(ss)
+	t_ := reverse(string(tt))
+	if s_ < t_ {
+		fmt.Println("Yes")
+	} else {
+		fmt.Println("No")
+	}
+}
 
-	stack := list.New()
-	for _, watch := range s {
-		if stack.Len() == 0 {
-			stack.PushFront(string(watch))
-			continue
-		}
-		top := stack.Front()
-		if top.Value == "(" && string(watch) == ")" {
-			stack.Remove(stack.Front())
-		} else {
-			stack.PushFront(string(watch))
-		}
+type RuneSlice []rune
+
+func (r RuneSlice) Len() int {
+	return len(r)
+}
+
+func (r RuneSlice) Less(i, j int) bool {
+	return r[i] < r[j]
+}
+
+func (r RuneSlice) Swap(i, j int) {
+	r[i], r[j] = r[j], r[i]
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
 	}
-	left, right := "", ""
-	lengh := stack.Len()
-	for i := 0; i < lengh; i++ {
-		top := stack.Remove(stack.Front()).(string)
-		if top == "(" {
-			right += ")"
-		} else {
-			left += "("
-		}
-	}
-	ans := left + s + right
-	fmt.Println(ans)
+	return string(runes)
 }
 
 /* template functions */

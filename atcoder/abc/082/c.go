@@ -18,31 +18,30 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	_ = intValue()
+	a := intSlice()
+	b := map[string]int{}
+	for _, v := range a {
+		idx := strconv.Itoa(v)
+		b[idx]++
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
+	res := 0
+	for i, value := range b {
+		idx, _ := strconv.Atoi(i)
+		if idx == 0 || value == 0 {
 			continue
 		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+		if idx == value {
+			continue
+		}
+		if value > idx {
+			res += value - idx
+		}
+		if value < idx {
+			res += value
 		}
 	}
-	fmt.Println(string(ans))
+	fmt.Println(res)
 }
 
 /* template functions */
@@ -62,21 +61,21 @@ func readln() string {
 	return string(buf)
 }
 
-func strv() string {
-	return strs()[0]
+func strValue() string {
+	return strSlice()[0]
 }
 
-func strs() []string {
+func strSlice() []string {
 	line := strings.Split(readln(), " ")
 	return line
 }
 
-func intv() int {
-	return ints()[0]
+func intValue() int {
+	return intSlice()[0]
 }
 
-func ints() []int {
-	line := strs()
+func intSlice() []int {
+	line := strSlice()
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
@@ -88,7 +87,7 @@ func ints() []int {
 	return slice
 }
 
-func max(x, y int) int {
+func IntMax(x, y int) int {
 	if x > y {
 		return x
 	} else {
@@ -96,7 +95,7 @@ func max(x, y int) int {
 	}
 }
 
-func min(x, y int) int {
+func IntMin(x, y int) int {
 	if x < y {
 		return x
 	} else {
@@ -104,7 +103,7 @@ func min(x, y int) int {
 	}
 }
 
-func abs(x int) int {
+func IntAbs(x int) int {
 	if x < 0 {
 		return -x
 	}

@@ -15,34 +15,49 @@ var (
 	UMOD      = uint64(1e9 + 7)
 	factorial []uint64
 	inverse   []uint64
+	INF       = 1 << 29
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n)
-	for i, _ := range s {
-		s[i] = strv()
+	_ = intSlice()
+	row := intSlice()
+	x, y := row[0], row[1]
+	a := intSlice()
+	b := intSlice()
+	t := a[0] + x
+	ans := 0
+	for {
+
+		idx := lower_bound(b, t)
+		if b[idx] < t {
+			break
+		}
+		t = b[idx] + y
+		ans++
+		idx = lower_bound(a, t)
+		if a[idx] < t {
+			break
+		}
+		t = a[idx] + x
 	}
-	ans := make([]rune, 0)
-	for i := 'a'; i <= 'z'; i++ {
-		m := 1 << 29
-		for _, row := range s {
-			cnt := 0
-			for _, c := range row {
-				if c == i {
-					cnt++
-				}
-			}
-			m = min(m, cnt)
-		}
-		if m == 0 {
-			continue
-		}
-		for j := 0; j < m; j++ {
-			ans = append(ans, i)
+	fmt.Println(ans)
+}
+
+func flight(a, b []int, path string, t int) {
+
+}
+
+func lower_bound(a []int, x int) int {
+	l, r := 0, len(a)-1
+	for l < r {
+		mid := int((l + r) / 2)
+		if x <= a[mid] {
+			r = mid
+		} else {
+			l = mid + 1
 		}
 	}
-	fmt.Println(string(ans))
+	return l
 }
 
 /* template functions */
@@ -62,21 +77,21 @@ func readln() string {
 	return string(buf)
 }
 
-func strv() string {
-	return strs()[0]
+func strValue() string {
+	return strSlice()[0]
 }
 
-func strs() []string {
+func strSlice() []string {
 	line := strings.Split(readln(), " ")
 	return line
 }
 
-func intv() int {
-	return ints()[0]
+func intValue() int {
+	return intSlice()[0]
 }
 
-func ints() []int {
-	line := strs()
+func intSlice() []int {
+	line := strSlice()
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
@@ -88,7 +103,7 @@ func ints() []int {
 	return slice
 }
 
-func max(x, y int) int {
+func IntMax(x, y int) int {
 	if x > y {
 		return x
 	} else {
@@ -96,7 +111,7 @@ func max(x, y int) int {
 	}
 }
 
-func min(x, y int) int {
+func IntMin(x, y int) int {
 	if x < y {
 		return x
 	} else {
@@ -104,7 +119,7 @@ func min(x, y int) int {
 	}
 }
 
-func abs(x int) int {
+func IntAbs(x int) int {
 	if x < 0 {
 		return -x
 	}
