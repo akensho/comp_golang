@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -12,31 +11,32 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
-	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
+	row := ints()
+	n, _ := row[0], row[1]
+	d := ints()
+	ans := n
+	for {
+		if payable(ans, d) {
+			break
 		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+		ans++
+	}
+	fmt.Println(ans)
+}
+
+func payable(x int, a []int) bool {
+	value := strconv.Itoa(x)
+	for _, v := range value {
+		for i, _ := range a {
+			if a[i] == int(v-'0') {
+				return false
+			}
 		}
 	}
-	fmt.Println("atcoder")
+	return true
 }
 
 /* template functions */

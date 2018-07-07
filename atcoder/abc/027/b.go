@@ -18,39 +18,25 @@ func main() {
 	n := intv()
 	a := ints()
 	sum := func() (res int) {
-		for i, _ := range a {
-			res += a[i]
+		for _, v := range a {
+			res += v
 		}
 		return res
 	}()
-	if sum%n != 0 {
+	if n%2 == 0 && sum%2 == 1 {
 		fmt.Println(-1)
 		return
 	}
-	per := sum / n
-	ans := 0
-	for i := 0; i < n-1; i++ {
-		l, r := 0, 0
-		// left
-		for j, _ := range a {
-			if j > i {
-				break
-			}
-			l += a[j]
-		}
-		// right
-		for j, _ := range a {
-			if j < i {
+	target := sum / n
+	ans := func() (res int) {
+		for _, v := range a {
+			if v == 0 || v == target {
 				continue
 			}
-			r += a[j]
+			res += abs(target - v)
 		}
-		//fmt.Printf("%d %d\n", l, r)
-		if per*(i+1) == l || per*(n-(i+1)) == r {
-			continue
-		}
-		ans++
-	}
+		return res
+	}()
 	fmt.Println(ans)
 }
 

@@ -2,41 +2,44 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
 
 var (
-	in  = bufio.NewReader(os.Stdin)
-	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
+	in        = bufio.NewReader(os.Stdin)
+	out       = bufio.NewWriter(os.Stdout)
+	MOD       = 1e9 + 7
+	UMOD      = uint64(1e9 + 7)
+	factorial []uint64
+	inverse   []uint64
 )
 
 func main() {
 	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
+	d := make([]int, n)
+	for i, _ := range d {
+		d[i] = intv()
 	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+	sort.Ints(d)
+	cnt := 1
+	for i := 0; i < len(d)-1; i++ {
+		if d[i] < d[i+1] {
+			cnt++
 		}
 	}
-	fmt.Println("atcoder")
+	fmt.Println(cnt)
+}
+
+func reverseInts(a []int) []int {
+	res := make([]int, len(a))
+	for i := 0; i < len(a); i++ {
+		res[i] = a[len(a)-i-1]
+	}
+	return res
 }
 
 /* template functions */

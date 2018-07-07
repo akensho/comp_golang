@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -10,33 +9,27 @@ import (
 )
 
 var (
-	in  = bufio.NewReader(os.Stdin)
-	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
+	in        = bufio.NewReader(os.Stdin)
+	out       = bufio.NewWriter(os.Stdout)
+	MOD       = 1e9 + 7
+	UMOD      = uint64(1e9 + 7)
+	factorial []uint64
+	inverse   []uint64
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
+	_ = intValue()
+	k := intValue()
+	x := intSlice()
+	sum := 0
+	for _, v := range x {
+		sum += IntMin(k-v, v) * 2
 	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
-		}
-	}
-	fmt.Println("atcoder")
+	fmt.Println(sum)
+}
+
+func move(from, to int) int {
+	return 2 * IntAbs(from-to)
 }
 
 /* template functions */
@@ -56,21 +49,21 @@ func readln() string {
 	return string(buf)
 }
 
-func strv() string {
-	return strs()[0]
+func strValue() string {
+	return strSlice()[0]
 }
 
-func strs() []string {
+func strSlice() []string {
 	line := strings.Split(readln(), " ")
 	return line
 }
 
-func intv() int {
-	return ints()[0]
+func intValue() int {
+	return intSlice()[0]
 }
 
-func ints() []int {
-	line := strs()
+func intSlice() []int {
+	line := strSlice()
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
@@ -82,7 +75,7 @@ func ints() []int {
 	return slice
 }
 
-func max(x, y int) int {
+func IntMax(x, y int) int {
 	if x > y {
 		return x
 	} else {
@@ -90,7 +83,7 @@ func max(x, y int) int {
 	}
 }
 
-func min(x, y int) int {
+func IntMin(x, y int) int {
 	if x < y {
 		return x
 	} else {
@@ -98,7 +91,7 @@ func min(x, y int) int {
 	}
 }
 
-func abs(x int) int {
+func IntAbs(x int) int {
 	if x < 0 {
 		return -x
 	}

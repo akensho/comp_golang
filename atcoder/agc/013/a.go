@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -10,33 +9,58 @@ import (
 )
 
 var (
-	in  = bufio.NewReader(os.Stdin)
-	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
+	in        = bufio.NewReader(os.Stdin)
+	out       = bufio.NewWriter(os.Stdout)
+	MOD       = 1e9 + 7
+	UMOD      = uint64(1e9 + 7)
+	factorial []uint64
+	inverse   []uint64
 )
 
 func main() {
 	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
+	a := ints()
+	if n == 1 {
+		fmt.Println(1)
+		return
 	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+	f := false
+	for i := 0; i < n-1; i++ {
+		if a[i] != a[i+1] {
+			f = true
+			break
 		}
 	}
-	fmt.Println("atcoder")
+	if !f {
+		fmt.Println(0)
+		return
+	}
+	ans := 1
+	state := 'n'
+	for i := 0; i < n-1; i++ {
+		if state == 'n' {
+			if a[i+1] > a[i] {
+				state = 'i'
+			} else if a[i+1] == a[i] {
+				state = 'n'
+			} else {
+				state = 'd'
+			}
+		}
+		if state == 'i' {
+			if a[i+1] < a[i] {
+				state = 'n'
+				ans++
+			}
+		}
+		if state == 'd' {
+			if a[i+1] > a[i] {
+				state = 'n'
+				ans++
+			}
+		}
+	}
+	fmt.Println(ans)
 }
 
 /* template functions */

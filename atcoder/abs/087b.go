@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -10,33 +9,46 @@ import (
 )
 
 var (
-	in  = bufio.NewReader(os.Stdin)
-	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
+	in        = bufio.NewReader(os.Stdin)
+	out       = bufio.NewWriter(os.Stdout)
+	MOD       = 1e9 + 7
+	UMOD      = uint64(1e9 + 7)
+	factorial []uint64
+	inverse   []uint64
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
-	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+	a := intv()
+	b := intv()
+	c := intv()
+	x := intv()
+	cnt := 0
+	for i := 0; i <= a; i++ {
+		for j := 0; j <= b; j++ {
+			for k := 0; k <= c; k++ {
+				if 500*i+100*j+50*k == x {
+					cnt++
+				}
+			}
 		}
 	}
-	fmt.Println("atcoder")
+	fmt.Println(cnt)
+}
+
+func divide2(x []int) []int {
+	for i, _ := range x {
+		x[i] = x[i] / 2
+	}
+	return x
+}
+
+func check(x []int) bool {
+	for _, v := range x {
+		if v%2 != 0 {
+			return false
+		}
+	}
+	return true
 }
 
 /* template functions */

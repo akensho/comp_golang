@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -16,27 +15,25 @@ var (
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
-	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+	row := ints()
+	n, q := row[0], row[1]
+	a := make([]int, n+1)
+	l := make([]int, q)
+	r := make([]int, q)
+	t := make([]int, q)
+	for i := 0; i < q; i++ {
+		tmp := ints()
+		l[i], r[i], t[i] = tmp[0], tmp[1], tmp[2]
+		for j := l[i]; j <= r[i]; j++ {
+			a[j] = t[i]
 		}
 	}
-	fmt.Println("atcoder")
+	for i, _ := range a {
+		if i == 0 {
+			continue
+		}
+		fmt.Println(a[i])
+	}
 }
 
 /* template functions */

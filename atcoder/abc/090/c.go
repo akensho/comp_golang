@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -19,6 +20,16 @@ var (
 func main() {
 	row := ints()
 	n, m := row[0], row[1]
+	if n > m {
+		n, m = m, n
+	}
+	if n == 1 && m == 1 {
+		fmt.Println(1)
+	} else if n == 1 {
+		fmt.Println(m - 2)
+	} else if n >= 2 {
+		fmt.Println(n*m - (2*n + 2*m) + 4)
+	}
 }
 
 /* template functions */

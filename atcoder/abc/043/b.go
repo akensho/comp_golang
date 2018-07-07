@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -12,31 +11,47 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
-	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+	s := strv()
+	res := ""
+	for _, v := range s {
+		switch v {
+		case '0':
+			res += "0"
+		case '1':
+			res += "1"
+		case 'B':
+			res = delete(res)
 		}
 	}
-	fmt.Println("atcoder")
+	fmt.Println(res)
+}
+
+func delete(s string) string {
+	if len(s) == 0 {
+		return ""
+	}
+	return s[:len(s)-1]
+}
+
+type orignal struct {
+	value string
+}
+
+type orignals []orignal
+
+func (o orignals) Len() int {
+	return len(o)
+}
+
+func (o orignals) Less(i, j int) bool {
+	return o[i].value < o[j].value
+}
+
+func (o orignals) Swap(i, j int) {
+	o[i], o[j] = o[j], o[i]
 }
 
 /* template functions */

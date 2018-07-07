@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -10,33 +9,46 @@ import (
 )
 
 var (
-	in  = bufio.NewReader(os.Stdin)
-	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
+	in        = bufio.NewReader(os.Stdin)
+	out       = bufio.NewWriter(os.Stdout)
+	MOD       = 1e9 + 7
+	UMOD      = uint64(1e9 + 7)
+	factorial []uint64
+	inverse   []uint64
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
+	row := ints()
+	x, y := row[0], row[1]
+
+	if abs(x) == abs(y) {
+		fmt.Println(1)
+		return
 	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
-		}
+
+	type queue struct {
+		x, cnt int
 	}
-	fmt.Println("atcoder")
+
+	q := make([]queue, 0)
+	q = append(q, queue{x: x, cnt: 0})
+	for {
+		now := q[0]
+		q = q[1:]
+		nx := now.x + 1
+		cnt := now.cnt + 1
+		if nx == y {
+			fmt.Println(cnt)
+			break
+		}
+		q = append(q, queue{x: nx, cnt: cnt})
+		nnx := -now.x
+		if nnx == y {
+			fmt.Println(cnt)
+			break
+		}
+		q = append(q, queue{x: nnx, cnt: cnt})
+	}
 }
 
 /* template functions */

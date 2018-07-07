@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -10,33 +9,27 @@ import (
 )
 
 var (
-	in  = bufio.NewReader(os.Stdin)
-	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
+	in        = bufio.NewReader(os.Stdin)
+	out       = bufio.NewWriter(os.Stdout)
+	MOD       = 1e9 + 7
+	UMOD      = uint64(1e9 + 7)
+	factorial []uint64
+	inverse   []uint64
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
-	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+	row := ints()
+	n, y := row[0], row[1]
+	for i := 0; i <= 10000; i++ {
+		for j := 0; j < 10000; j++ {
+			k := n - i - j
+			if 10000*i+5000*j+1000*k == y && k >= 0 {
+				fmt.Printf("%d %d %d\n", i, j, k)
+				return
+			}
 		}
 	}
-	fmt.Println("atcoder")
+	fmt.Println("-1 -1 -1")
 }
 
 /* template functions */

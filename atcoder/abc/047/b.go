@@ -15,98 +15,79 @@ var (
 	UMOD      = uint64(1e9 + 7)
 	factorial []uint64
 	inverse   []uint64
+	f         [][]bool
 )
 
 func main() {
 	row := ints()
 	w, h, n := row[0], row[1], row[2]
-	f := make([][]bool, h)
+	f = make([][]bool, 101)
 	for i, _ := range f {
-		f[i] = make([]bool, w)
+		f[i] = make([]bool, 101)
 	}
-	type my struct {
-		x int
-		y int
-		a int
-	}
-	points := make([]my, n)
-	for i, _ := range points {
+	for i := 0; i < n; i++ {
 		row = ints()
-		points[i].x, points[i].y, points[i].a = row[0], row[1], row[2]
-	}
-	for _, p := range points {
-		switch p.a {
+		x, y, a := row[0], row[1], row[2]
+		switch a {
 		case 1:
-			left(&f, p.x, h, w)
+			left(x)
 		case 2:
-			f = right(f, p.x)
+			right(x)
 		case 3:
-			f = down(f, p.y)
+			down(y)
 		case 4:
-			f = up(f, p.y)
+			up(y)
 		}
 	}
-	ans := func() (res int) {
-		for i, row := range f {
-			for j, _ := range row {
-				if f[i][j] {
-					res++
-				}
+	res := 0
+	for i := 0; i <= h; i++ {
+		for j := 0; j <= w; j++ {
+			if !f[i][j] {
+				res++
 			}
 		}
-		return res
-	}()
-	fmt.Println(ans)
+	}
+	fmt.Println(res)
 }
 
-func left(f *[][]bool, x, h, w int) {
-	for i := 0; i < h; i++ {
-		for j := 0; j < w; j++ {
-			if j < x {
-				f[i][j] = true
-			}
-		}
-	}
-	for i, row := range f {
-		for j, _ := range row {
-			if j < x {
+func left(x int) {
+	for i := 0; i < 101; i++ {
+		for j := 0; j < 101; j++ {
+			if j <= x {
 				f[i][j] = true
 			}
 		}
 	}
 }
 
-func right(f [][]bool, x int) [][]bool {
-	for i, row := range f {
-		for j, _ := range row {
-			if j > x {
+func right(x int) {
+	for i := 0; i < 101; i++ {
+		for j := 0; j < 101; j++ {
+			if j >= x {
 				f[i][j] = true
 			}
 		}
 	}
-	return f
 }
 
-func up(f [][]bool, y int) [][]bool {
-	for i, row := range f {
-		if i > y {
-			for j, _ := range row {
+func down(y int) {
+	for i := 0; i < 101; i++ {
+		for j := 0; j < 101; j++ {
+			if i <= y {
 				f[i][j] = true
 			}
 		}
 	}
-	return f
 }
 
-func down(f [][]bool, y int) [][]bool {
-	for i, row := range f {
-		if i < y {
-			for j, _ := range row {
+func up(y int) {
+	for i := 0; i < 101; i++ {
+		for j := 0; j < 101; j++ {
+			if i >= y {
 				f[i][j] = true
 			}
 		}
 	}
-	return f
 }
 
 /* template functions */

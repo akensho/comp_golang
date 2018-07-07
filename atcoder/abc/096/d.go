@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -12,31 +11,50 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
 )
 
 func main() {
 	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
-	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
+	prime := eratosthenes(100000)
+	ans := make([]int, n)
+	idx := 0
+	for i, p := range prime {
+		if ans[len(ans)-1] != 0 {
+			break
 		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+		if p {
+			str := strconv.Itoa(i)
+			end := str[len(str)-1:]
+			if end == "1" {
+				ans[idx] = i
+				idx++
+			}
 		}
 	}
-	fmt.Println("atcoder")
+	for i, v := range ans {
+		if i == len(ans)-1 {
+			fmt.Println(v)
+		} else {
+			fmt.Printf("%d ", v)
+		}
+	}
+}
+
+func eratosthenes(n int) []bool {
+	isPrime := make([]bool, n+1)
+	for i, _ := range isPrime {
+		isPrime[i] = true
+	}
+	isPrime[0] = false
+	isPrime[1] = false
+	for i := 2; i*i <= n; i++ {
+		if isPrime[i] {
+			for j := 2; i*j < len(isPrime); j++ {
+				isPrime[i*j] = false
+			}
+		}
+	}
+	return isPrime
 }
 
 /* template functions */

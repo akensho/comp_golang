@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -12,31 +12,28 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
-	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
-		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+	s := strv()
+	k := intv()
+	set := make(map[string]bool, 0)
+	for i := 0; i < len(s); i++ {
+		for j := i + 1; j <= len(s); j++ {
+			if j-i > 5 {
+				break
+			}
+			if _, ok := set[s[i:j]]; !ok {
+				set[s[i:j]] = true
+			}
 		}
 	}
-	fmt.Println("atcoder")
+	list := make([]string, 0)
+	for key, _ := range set {
+		list = append(list, key)
+	}
+	sort.Strings(list)
+	fmt.Println(list[k-1])
 }
 
 /* template functions */

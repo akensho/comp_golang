@@ -2,24 +2,28 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
 )
 
 var (
-	in        = bufio.NewReader(os.Stdin)
-	out       = bufio.NewWriter(os.Stdout)
-	MOD       = 1e9 + 7
-	UMOD      = uint64(1e9 + 7)
-	factorial []uint64
-	inverse   []uint64
+	in   = bufio.NewReader(os.Stdin)
+	out  = bufio.NewWriter(os.Stdout)
+	a, s []int
 )
 
 func main() {
 	n := intv()
-	a := ints()
-
+	a = ints()
+	s = make([]int, n)
+	s[0] = a[0]
+	for i := 1; i < len(s); i++ {
+		s[i] = s[i-1] + a[i]
+	}
+	fmt.Println(a)
+	fmt.Println(s)
 }
 
 /* template functions */

@@ -9,17 +9,13 @@ import (
 )
 
 var (
-	in        = bufio.NewReader(os.Stdin)
-	out       = bufio.NewWriter(os.Stdout)
-	MOD       = 1e9 + 7
-	UMOD      = uint64(1e9 + 7)
-	factorial []uint64
-	inverse   []uint64
+	in  = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
 )
 
 func main() {
-	n := intValue()
-	a := intSlice()
+	n := intv()
+	a := ints()
 	two := 0
 	four := 0
 	for _, v := range a {
@@ -30,16 +26,21 @@ func main() {
 		if v%2 == 0 {
 			two++
 		}
-	} /*
-		if n%2 == 0 {
-
+	}
+	if two == 0 {
+		if n/2 <= four {
+			fmt.Println("Yes")
 		} else {
-
+			fmt.Println("No")
 		}
-	*/
-	fmt.Println(n)
-	fmt.Println(two)
-	fmt.Println(four)
+	} else {
+		other := n - four - two
+		if other <= four {
+			fmt.Println("Yes")
+		} else {
+			fmt.Println("No")
+		}
+	}
 }
 
 /* template functions */
@@ -59,21 +60,21 @@ func readln() string {
 	return string(buf)
 }
 
-func strValue() string {
-	return strSlice()[0]
+func strv() string {
+	return strs()[0]
 }
 
-func strSlice() []string {
+func strs() []string {
 	line := strings.Split(readln(), " ")
 	return line
 }
 
-func intValue() int {
-	return intSlice()[0]
+func intv() int {
+	return ints()[0]
 }
 
-func intSlice() []int {
-	line := strSlice()
+func ints() []int {
+	line := strs()
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
@@ -85,7 +86,7 @@ func intSlice() []int {
 	return slice
 }
 
-func IntMax(x, y int) int {
+func max(x, y int) int {
 	if x > y {
 		return x
 	} else {
@@ -93,7 +94,7 @@ func IntMax(x, y int) int {
 	}
 }
 
-func IntMin(x, y int) int {
+func min(x, y int) int {
 	if x < y {
 		return x
 	} else {
@@ -101,7 +102,7 @@ func IntMin(x, y int) int {
 	}
 }
 
-func IntAbs(x int) int {
+func abs(x int) int {
 	if x < 0 {
 		return -x
 	}

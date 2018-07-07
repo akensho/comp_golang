@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-
 	"fmt"
 	"os"
 	"strconv"
@@ -12,31 +11,60 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	s := make([]string, n+1)
-	p := make([]int, n+1)
-	for i := 1; i <= n; i++ {
-		row := strs()
-		s[i] = row[0]
-		p[i], _ = strconv.Atoi(row[1])
+	s := strv()
+	rev := reverse(s)
+	ans := rec(rev)
+	if ans {
+		fmt.Println("YES")
+	} else {
+		fmt.Println("NO")
 	}
-	sum := func() (res int) {
-		for _, val := range p {
-			res += val
+}
+
+func rec(s string) bool {
+	if len(s) == 0 {
+		return true
+	}
+	if len(s) < 5 {
+		return false
+	}
+	switch s[:1] {
+	case "m":
+		if s[:5] == "maerd" {
+			return rec(s[5:])
+		} else {
+			return false
 		}
-		return res
-	}()
-	for i, _ := range p {
-		if sum/2 < p[i] {
-			fmt.Println(s[i])
-			return
+	case "r":
+		if len(s) < 6 {
+			return false
+		}
+		if s[:6] == "resare" {
+			return rec(s[6:])
+		} else if s[:7] == "remaerd" {
+			return rec(s[7:])
+		} else {
+			return false
+		}
+	case "e":
+		if s[:5] == "esare" {
+			return rec(s[5:])
+		} else {
+			return false
 		}
 	}
-	fmt.Println("atcoder")
+	return false
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
 }
 
 /* template functions */
