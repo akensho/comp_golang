@@ -2,9 +2,7 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -16,36 +14,62 @@ var (
 )
 
 func main() {
-	n := intv()
-	l := []int{1}
-	for i := 6; i <= 1000000; i *= 6 {
-		l = append(l, i)
+	row := ints()
+	n, m := row[0], row[1]
+
+	var uf UnionFindTree
+	uf.NewUnionFindTree(n)
+}
+
+type Edge struct {
+	u, v, cost int
+}
+
+type UnionFindTree struct {
+	Parent, Rank []int
+}
+
+func (uf *UnionFindTree) NewUnionFindTree(n int) {
+	uf.Parent = make([]int, n)
+	uf.Rank = make([]int, n)
+	for i, _ := range uf.Parent {
+		uf.Parent[i] = i
 	}
-	for i := 9; i <= 1000000; i *= 9 {
-		l = append(l, i)
+	for i, _ := range uf.Rank {
+		uf.Rank[i] = 0
 	}
-	sort.Ints(l)
-	x := 0
-	for {
-		idx := -1
-		if l[len(l)-1] < n {
-			idx = len(l) - 1
-		} else {
-			for i, v := range l {
-				if n <= v {
-					idx = i
-					break
-				}
-			}
-			if n == l[idx] {
-				x++
-				break
-			}
+}
+
+func (uf *UnionFindTree) Find(x int) int {
+	if uf.Parent[x] == x {
+		return x
+	}
+	uf.Parent[x] = uf.Find(uf.Parent[x])
+	return uf.Parent[x]
+}
+
+func (uf *UnionFindTree) Unite(x, y int) {
+	x = uf.Find(x)
+	y = uf.Find(y)
+	if x == y {
+		return
+	}
+
+	if uf.Rank[x] < uf.Rank[y] {
+		uf.Parent[x] = y
+	} else {
+		uf.Parent[y] = x
+		if uf.Rank[x] == uf.Rank[y] {
+			uf.Rank[x]++
 		}
-		x += n / l[idx-1]
-		n = n % l[idx-1]
 	}
-	fmt.Println(x)
+}
+
+func (uf *UnionFindTree) IsSame(x, y int) bool {
+	if uf.Find(x) == uf.Find(y) {
+		return true
+	}
+	return false
 }
 
 /* template functions */

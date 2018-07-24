@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -16,36 +15,19 @@ var (
 )
 
 func main() {
-	n := intv()
-	l := []int{1}
-	for i := 6; i <= 1000000; i *= 6 {
-		l = append(l, i)
-	}
-	for i := 9; i <= 1000000; i *= 9 {
-		l = append(l, i)
-	}
-	sort.Ints(l)
-	x := 0
-	for {
-		idx := -1
-		if l[len(l)-1] < n {
-			idx = len(l) - 1
-		} else {
-			for i, v := range l {
-				if n <= v {
-					idx = i
-					break
-				}
-			}
-			if n == l[idx] {
-				x++
-				break
-			}
+	s := strv()
+	t := strv()
+	for i := 0; i < len(s); i++ {
+		a := s[:len(s)-1]
+		b := string(s[len(s)-1])
+		ss := b + a
+		if s == t {
+			fmt.Println("Yes")
+			return
 		}
-		x += n / l[idx-1]
-		n = n % l[idx-1]
+		s = ss
 	}
-	fmt.Println(x)
+	fmt.Println("No")
 }
 
 /* template functions */
