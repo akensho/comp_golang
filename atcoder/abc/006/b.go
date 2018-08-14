@@ -15,7 +15,32 @@ var (
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	if n == 1 || n == 2 {
+		fmt.Println(0)
+		return
+	} else if n == 3 {
+		fmt.Println(1)
+		return
+	}
+	a := make([]int, n+1)
+	a[0] = 0
+	a[1] = 0
+	a[2] = 0
+	a[3] = 1
+	for i := 4; i <= n; i++ {
+		a[i] = (a[i-1] + a[i-2] + a[i-3]) % 10007
+	}
+	fmt.Println(a[n])
+}
+
+func contains(x int) bool {
+	a := strconv.Itoa(x)
+	for i, _ := range a {
+		if a[i] == '3' {
+			return true
+		}
+	}
+	return false
 }
 
 /* template functions */

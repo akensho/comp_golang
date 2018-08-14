@@ -11,11 +11,13 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	row := ints()
+	s, t := row[0], row[1]
+	fmt.Println(t - s + 1)
 }
 
 /* template functions */
@@ -82,4 +84,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v\n", v)
+	}
 }

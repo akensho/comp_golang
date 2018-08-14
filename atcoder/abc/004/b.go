@@ -14,8 +14,23 @@ var (
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	field := make([][]string, 4)
+	for i, _ := range field {
+		field[i] = make([]string, 4)
+		row := strs()
+		for j := 0; j < 4; j++ {
+			field[i][j] = row[j]
+		}
+	}
+	for i := 3; i > -1; i-- {
+		for j := 3; j > -1; j-- {
+			if j != 0 {
+				fmt.Printf("%s ", field[i][j])
+			} else {
+				fmt.Println(field[i][j])
+			}
+		}
+	}
 }
 
 /* template functions */
@@ -82,4 +97,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v¥n", v)
+	}
 }

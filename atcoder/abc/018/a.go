@@ -11,11 +11,39 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	a := intv()
+	b := intv()
+	c := intv()
+	rank := make([]int, 3)
+	rank[0], rank[1], rank[2] = a, b, c
+	rank = intReverse(rank)
+	for i, _ := range rank {
+		if a == rank[i] {
+			fmt.Println(i + 1)
+		}
+	}
+	for i, _ := range rank {
+		if b == rank[i] {
+			fmt.Println(i + 1)
+		}
+	}
+	for i, _ := range rank {
+		if c == rank[i] {
+			fmt.Println(i + 1)
+		}
+	}
+}
+
+func intReverse(a []int) []int {
+	res := make([]int, 0)
+	for i := 0; i < len(a); i++ {
+		res = append(res, a[len(a)-i-1])
+	}
+	return res
 }
 
 /* template functions */

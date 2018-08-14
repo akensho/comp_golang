@@ -11,11 +11,17 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	row := ints()
+	n, k := row[0], row[1]
+	if n%k == 0 {
+		fmt.Println(0)
+	} else {
+		fmt.Println(1)
+	}
 }
 
 /* template functions */

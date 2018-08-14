@@ -11,11 +11,19 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	row := ints()
+	a, b, c, k := row[0], row[1], row[2], row[3]
+	row = ints()
+	s, t := row[0], row[1]
+	if s+t >= k {
+		fmt.Println(s*(a-c) + t*(b-c))
+	} else {
+		fmt.Println(a*s + b*t)
+	}
 }
 
 /* template functions */

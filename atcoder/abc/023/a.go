@@ -9,25 +9,18 @@ import (
 )
 
 var (
-	in        = bufio.NewReader(os.Stdin)
-	out       = bufio.NewWriter(os.Stdout)
-	MOD       = 1e9 + 7
-	UMOD      = uint64(1e9 + 7)
-	factorial []uint64
-	inverse   []uint64
+	in  = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	a := intv()
-	ans := -1
-	for i := 1; i <= 100; i++ {
-		for j := 1; j <= 100; j++ {
-			if i+j == a {
-				ans = max(ans, i*j)
-			}
-		}
+	x := strv()
+	sum := 0
+	for i, _ := range x {
+		sum += int(x[i] - '0')
 	}
-	fmt.Println(ans)
+	fmt.Println(sum)
 }
 
 /* template functions */

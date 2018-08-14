@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -11,11 +12,13 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	row := ints()
+	sort.Ints(row)
+	fmt.Println(row[1])
 }
 
 /* template functions */

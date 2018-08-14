@@ -11,11 +11,18 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	r := intv()
+	if r < 1200 {
+		fmt.Println("ABC")
+	} else if r < 2800 {
+		fmt.Println("ARC")
+	} else {
+		fmt.Println("AGC")
+	}
 }
 
 /* template functions */

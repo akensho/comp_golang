@@ -14,8 +14,12 @@ var (
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	a := strv()
+	if a == "a" {
+		fmt.Println(-1)
+	} else {
+		fmt.Println("a")
+	}
 }
 
 /* template functions */

@@ -15,7 +15,7 @@ var (
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	fmt.Println(2 * n)
 }
 
 /* template functions */

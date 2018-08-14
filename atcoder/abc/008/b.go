@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -11,11 +12,46 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
+
+type orignal struct {
+	name  string
+	value int
+}
+
+type orignals []orignal
+
+func (o orignals) Len() int {
+	return len(o)
+}
+
+func (o orignals) Less(i, j int) bool {
+	return o[i].value < o[j].value
+}
+
+func (o orignals) Swap(i, j int) {
+	o[i], o[j] = o[j], o[i]
+}
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	s := make(map[string]int)
+	for i := 0; i < n; i++ {
+		name := strv()
+		if v, ok := s[name]; !ok {
+			s[name] = 1
+		} else {
+			s[name] = v + 1
+		}
+	}
+	o := make([]orignal, 0)
+	for n, v := range s {
+		o = append(o, orignal{n, v})
+	}
+	sort.Sort(orignals(o))
+	ans := o[len(o)-1].name
+	fmt.Println(ans)
 }
 
 /* template functions */
@@ -82,4 +118,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v\n", v)
+	}
 }

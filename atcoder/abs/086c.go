@@ -11,11 +11,32 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	t := make([]int, n)
+	x := make([]int, n)
+	y := make([]int, n)
+	for i := 0; i < n; i++ {
+		row := ints()
+		t[i] = row[0]
+		x[i] = row[1]
+		y[i] = row[2]
+	}
+	nt, nx, ny := 0, 0, 0
+	for i := 0; i < n; i++ {
+		dt := abs(nt - t[i])
+		dx := abs(nx - x[i])
+		dy := abs(ny - y[i])
+		if dt%2 == 0 {
+
+		} else {
+
+		}
+	}
+	fmt.Println("Yes")
 }
 
 /* template functions */

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -11,11 +12,23 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	a := make([]int, n)
+	for i, _ := range a {
+		a[i] = intv()
+	}
+	sort.Ints(a)
+	h := a[len(a)-1]
+	for i := len(a) - 1; i > -1; i-- {
+		if a[i] != h {
+			fmt.Println(a[i])
+			return
+		}
+	}
 }
 
 /* template functions */
@@ -82,4 +95,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v\n", v)
+	}
 }

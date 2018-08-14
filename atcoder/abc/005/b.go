@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -15,7 +16,22 @@ var (
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	t := make([]int, n)
+	for i := 0; i < n; i++ {
+		t[i] = intv()
+	}
+	sort.Ints(t)
+	fmt.Println(t[0])
+}
+
+func contains(x int) bool {
+	a := strconv.Itoa(x)
+	for i, _ := range a {
+		if a[i] == '3' {
+			return true
+		}
+	}
+	return false
 }
 
 /* template functions */

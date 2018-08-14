@@ -11,11 +11,15 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	fmt.Println(n)
+	for i := 0; i < n; i++ {
+		fmt.Println(1)
+	}
 }
 
 /* template functions */

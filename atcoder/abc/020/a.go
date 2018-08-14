@@ -11,11 +11,17 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	q := intv()
+	switch q {
+	case 1:
+		fmt.Println("ABC")
+	case 2:
+		fmt.Println("chokudai")
+	}
 }
 
 /* template functions */

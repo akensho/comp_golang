@@ -11,11 +11,53 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	arr := make([]bool, 101)
+	for i, _ := range arr {
+		arr[i] = false
+	}
+	for i, _ := range arr {
+		if i%4 == 0 {
+			arr[i] = true
+			for j := i + 7; j <= 100; j += 7 {
+				arr[j] = true
+			}
+		}
+		if i%7 == 0 {
+			arr[i] = true
+			for j := i + 4; j <= 100; j += 4 {
+				arr[j] = true
+			}
+		}
+	}
+	if arr[n] {
+		fmt.Println("Yes")
+	} else {
+		fmt.Println("No")
+	}
+	/*
+		ret1 := seven(four(n))
+		ret2 := four(seven(n))
+		if ret1 == 0 || ret2 == 0 {
+			fmt.Println("Yes")
+		} else {
+			fmt.Println("No")
+		}
+	*/
+}
+
+func four(x int) int {
+	res := x % 4
+	return res
+}
+
+func seven(x int) int {
+	res := x % 7
+	return res
 }
 
 /* template functions */

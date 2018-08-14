@@ -11,11 +11,29 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	_ = intv()
+	a := ints()
+	ans := 0
+	for i, _ := range a {
+		for {
+			if a[i]%2 != 1 {
+				ans++
+				a[i] = a[i] - 1
+			}
+			if a[i]%3 == 2 {
+				ans++
+				a[i] = a[i] - 1
+			}
+			if a[i]%2 == 1 && a[i]%3 != 2 {
+				break
+			}
+		}
+	}
+	fmt.Println(ans)
 }
 
 /* template functions */
@@ -82,4 +100,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v\n", v)
+	}
 }

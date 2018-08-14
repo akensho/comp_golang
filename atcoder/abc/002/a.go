@@ -9,16 +9,15 @@ import (
 )
 
 var (
-	in        = bufio.NewReader(os.Stdin)
-	out       = bufio.NewWriter(os.Stdout)
-	MOD       = 1e9 + 7
-	UMOD      = uint64(1e9 + 7)
-	factorial []uint64
-	inverse   []uint64
+	in  = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
 )
 
 func main() {
-
+	row := ints()
+	x, y := row[0], row[1]
+	m := max(x, y)
+	fmt.Println(m)
 }
 
 /* template functions */
@@ -85,4 +84,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v¥n", v)
+	}
 }

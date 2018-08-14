@@ -15,7 +15,21 @@ var (
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	if contains(n) || n%3 == 0 {
+		fmt.Println("YES")
+	} else {
+		fmt.Println("NO")
+	}
+}
+
+func contains(x int) bool {
+	a := strconv.Itoa(x)
+	for i, _ := range a {
+		if a[i] == '3' {
+			return true
+		}
+	}
+	return false
 }
 
 /* template functions */

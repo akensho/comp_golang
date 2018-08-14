@@ -23,21 +23,57 @@ func main() {
 		}
 		return res
 	}()
-	if n%2 == 0 && sum%2 == 1 {
+	if sum == 0 {
+		fmt.Println(0)
+		return
+	}
+	if sum%n != 0 {
 		fmt.Println(-1)
 		return
 	}
-	target := sum / n
-	ans := func() (res int) {
-		for _, v := range a {
-			if v == 0 || v == target {
-				continue
-			}
-			res += abs(target - v)
+	f := true
+	for _, v := range a {
+		if a[0] != v {
+			f = false
+		}
+	}
+	if f {
+		fmt.Println(0)
+		return
+	}
+	per := sum / n
+	ans := 0
+	for i := 0; i < len(a)-1; i++ {
+		need := check(i, i+1, per, a)
+		if need {
+			ans++
+		}
+	}
+	fmt.Println(ans)
+}
+
+func check(x, y, per int, a []int) bool {
+	l := per * (x + 1)
+	r := per * (len(a) - (x + 1))
+	sum := func() (res int) {
+		for i := 0; i <= x; i++ {
+			res += a[i]
 		}
 		return res
 	}()
-	fmt.Println(ans)
+	if sum != l {
+		return true
+	}
+	sum = func() (res int) {
+		for i := y; i < len(a); i++ {
+			res += a[i]
+		}
+		return res
+	}()
+	if sum != r {
+		return true
+	}
+	return false
 }
 
 /* template functions */
@@ -104,4 +140,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v\n", v)
+	}
 }

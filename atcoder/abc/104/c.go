@@ -11,11 +11,56 @@ import (
 var (
 	in  = bufio.NewReader(os.Stdin)
 	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	row := ints()
+	d, g := row[0], row[1]
+	g = g / 100
+	p := make([]int, d+1)
+	c := make([]int, d+1)
+	for i := 1; i <= d; i++ {
+		row = ints()
+		p[i], c[i] = row[0], row[1]
+		c[i] = c[i] / 100
+	}
+
+	sum := 0
+	for i := 1; i <= d; i++ {
+		sum += p[i]*i + c[i]
+	}
+	dp := make([][]int, d+1)
+	for i, _ := range dp {
+		dp[i] = make([]int, sum+1)
+	}
+
+	fmt.Println(p)
+	fmt.Println(c)
+	fmt.Println(g)
+	fmt.Println(dp)
+	fmt.Println(len(dp))
+	m := 2 >> 32
+	for i := 0; i < len(dp)-1; i++ {
+		if i == 0 {
+			continue
+		}
+		for j := 0; j < len(dp[0])-1; j++ {
+			if i+1 >= j {
+				dp[i][j] = 1
+				continue
+			} else {
+				dp[i+1][j] = min(dp[i][j], dp[i+1][j-1]+1)
+			}
+		}
+	}
+	for i := 0; i < len(dp); i++ {
+		for j := 0; j < len(dp[0]); j++ {
+			m = min(m, dp[i][j])
+		}
+	}
+	fmt.Println(dp)
+	fmt.Println(m)
 }
 
 /* template functions */

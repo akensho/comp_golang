@@ -15,7 +15,13 @@ var (
 
 func main() {
 	n := intv()
-	fmt.Println(n - 1)
+	sum := func() (res float64) {
+		for i := 1; i <= n; i++ {
+			res += float64(10000) * float64(i) / float64(n)
+		}
+		return res
+	}()
+	fmt.Println(sum)
 }
 
 /* template functions */
@@ -82,4 +88,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v¥n", v)
+	}
 }

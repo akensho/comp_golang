@@ -14,8 +14,61 @@ var (
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	s := strv()
+	t := strv()
+	if s == t && !contains(s) && !contains(t) {
+		win()
+		return
+	}
+	if s != t && !contains(s) && !contains(t) {
+		lose()
+		return
+	}
+	for i, _ := range s {
+		si := s[i]
+		ti := t[i]
+		if si != ti {
+			if si != '@' && ti != '@' {
+				lose()
+				return
+			} else if si == '@' {
+				if !check(ti) {
+					lose()
+					return
+				}
+			} else {
+				if !check(si) {
+					lose()
+					return
+				}
+			}
+		}
+	}
+	win()
+}
+
+func win() {
+	fmt.Println("You can win")
+}
+
+func lose() {
+	fmt.Println("You will lose")
+}
+
+func contains(x string) bool {
+	for i, _ := range x {
+		if x[i] == '@' {
+			return true
+		}
+	}
+	return false
+}
+
+func check(b byte) bool {
+	if b == 'a' || b == 't' || b == 'c' || b == 'o' || b == 'd' || b == 'e' || b == 'r' {
+		return true
+	}
+	return false
 }
 
 /* template functions */
@@ -82,4 +135,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v¥n", v)
+	}
 }

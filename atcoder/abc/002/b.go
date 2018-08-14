@@ -14,8 +14,23 @@ var (
 )
 
 func main() {
-	n := intv()
-	fmt.Println(n - 1)
+	w := strv()
+	ans := remove(w)
+	fmt.Println(ans)
+}
+
+func remove(s string) (res string) {
+	tmp := make([]string, 0)
+	for _, letter := range s {
+		if letter == 'a' || letter == 'i' || letter == 'u' || letter == 'e' || letter == 'o' {
+			continue
+		}
+		tmp = append(tmp, string(letter))
+	}
+	for _, v := range tmp {
+		res += v
+	}
+	return res
 }
 
 /* template functions */
@@ -82,4 +97,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v¥n", v)
+	}
 }
