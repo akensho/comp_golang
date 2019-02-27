@@ -15,20 +15,14 @@ var (
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
+	s := strv()
+	val := strings.Split(s, "/")
+	v := val[0] + val[1] + val[2]
+	if v <= "20190430" {
+		fmt.Println("Heisei")
 	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+		fmt.Println("TBD")
 	}
-}
-
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
-	}
-	return (x / y) + 1
 }
 
 /* template functions */

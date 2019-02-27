@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -15,20 +16,48 @@ var (
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	s := strv()
+	t := strv()
+	ss := make([]string, 0)
+	tt := make([]string, 0)
+	for _, v := range s {
+		ss = append(ss, string(v))
 	}
+	for _, v := range t {
+		tt = append(tt, string(v))
+	}
+	sort.Strings(ss)
+	sort.Strings(tt)
+	fmt.Println(ss)
+	fmt.Println(tt)
+	conv := make(map[string]string)
+	for i := 0; i < len(ss); i++ {
+		if ss[i] == tt[i] {
+			continue
+		}
+		if val, ok := conv[ss[i]]; ok {
+			if val == tt[i] {
+				break
+			}
+			fmt.Println("No")
+			return
+		}
+		conv[ss[i]] = tt[i]
+		conv[tt[i]] = ss[i]
+	}
+	//	fmt.Println(conv)
+	fmt.Println("Yes")
 }
 
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
+func padding(x int) string {
+	s := strconv.Itoa(x)
+	for {
+		if len(s) >= 6 {
+			break
+		}
+		s = "0" + s
 	}
-	return (x / y) + 1
+	return s
 }
 
 /* template functions */

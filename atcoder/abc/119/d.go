@@ -15,20 +15,7 @@ var (
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
-	}
-}
 
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
-	}
-	return (x / y) + 1
 }
 
 /* template functions */

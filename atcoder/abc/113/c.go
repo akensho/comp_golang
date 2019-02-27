@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -14,21 +15,61 @@ var (
 	INF = (1 << 32) - 1
 )
 
+type city struct {
+	year int
+	idx  int
+}
+
+type cities []city
+
+func (o cities) Len() int {
+	return len(o)
+}
+
+func (o cities) Less(i, j int) bool {
+	return o[i].year < o[j].year
+}
+
+func (o cities) Swap(i, j int) {
+	o[i], o[j] = o[j], o[i]
+}
+
 func main() {
 	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	n, m := row[0], row[1]
+	c := make([][]city, n)
+	for i, _ := range c {
+		c[i] = make([]city, 0)
+	}
+	for i := 0; i < m; i++ {
+		row := ints()
+		num := row[0] - 1
+		c[num] = append(c[num], city{idx: i, year: row[1]})
+	}
+	for i, _ := range c {
+		sort.Sort(cities(c[i]))
+	}
+	//var_dump(c)
+	ans := make([]string, m)
+	for idx, val := range c {
+		for i, v := range val {
+			ans[v.idx] = padding(idx+1) + padding(i+1)
+		}
+	}
+	for _, v := range ans {
+		fmt.Println(v)
 	}
 }
 
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
+func padding(x int) string {
+	s := strconv.Itoa(x)
+	for {
+		if len(s) >= 6 {
+			break
+		}
+		s = "0" + s
 	}
-	return (x / y) + 1
+	return s
 }
 
 /* template functions */

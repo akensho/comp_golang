@@ -15,20 +15,30 @@ var (
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	s := intv()
+	a := make([]int, 1000001)
+	a[1] = s
+	for i := 2; i < len(a); i++ {
+		a[i] = f(a[i-1])
+	}
+	set := make(map[int]int)
+	for i, val := range a {
+		if _, ok := set[val]; !ok {
+			set[val] = i
+		} else {
+			fmt.Println(i)
+			return
+		}
 	}
 }
 
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
+func f(x int) (ret int) {
+	if x%2 == 0 {
+		ret = x / 2
+	} else {
+		ret = 3*x + 1
 	}
-	return (x / y) + 1
+	return ret
 }
 
 /* template functions */
@@ -66,23 +76,6 @@ func ints() []int {
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
-		if err != nil {
-			panic(err)
-		}
-		slice = append(slice, val)
-	}
-	return slice
-}
-
-func floatv() float64 {
-	return floats()[0]
-}
-
-func floats() []float64 {
-	line := strs()
-	slice := make([]float64, 0)
-	for _, tmp := range line {
-		val, err := strconv.ParseFloat(tmp, 64)
 		if err != nil {
 			panic(err)
 		}

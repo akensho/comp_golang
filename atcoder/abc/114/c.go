@@ -6,29 +6,53 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sort"
 )
 
 var (
-	in  = bufio.NewReader(os.Stdin)
-	out = bufio.NewWriter(os.Stdout)
-	INF = (1 << 32) - 1
+	in   = bufio.NewReader(os.Stdin)
+	out  = bufio.NewWriter(os.Stdout)
+	INF  = (1 << 32) - 1
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	s := intv()
+	base := []int{357, 375, 537, 573, 735, 753}
+	save := make([][]int, 0)
+	save = append(save, base)
+	for i := 1000; i<=1000000000; i=i*10{
+		l := save[len(save)-1:][0]
+		tmp  := f(l, i, 3)
+		tmp2 := f(l, i, 5)
+		tmp3 := f(l, i, 7)
+		list := append(tmp, tmp2...)
+		list = append(list, tmp3...)
+		save = append(save, list)
 	}
+	list := make([]int, 0)
+	for _, li := range save {
+		for _, val := range li {
+			list = append(list, val)
+		}
+	}
+	sort.Ints(list)
+	ans := 0
+	for _, val := range list {
+		if val <= s {
+			ans++
+			fmt.Println(val)
+		}
+	}
+	fmt.Println(ans)
 }
 
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
+func f(a []int, x ,y int)[]int{
+	tmp := make([]int, 0)
+	for _, val := range a {
+		t := x*y+val
+		tmp = append(tmp, t)
 	}
-	return (x / y) + 1
+	return tmp
 }
 
 /* template functions */
@@ -66,23 +90,6 @@ func ints() []int {
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
-		if err != nil {
-			panic(err)
-		}
-		slice = append(slice, val)
-	}
-	return slice
-}
-
-func floatv() float64 {
-	return floats()[0]
-}
-
-func floats() []float64 {
-	line := strs()
-	slice := make([]float64, 0)
-	for _, tmp := range line {
-		val, err := strconv.ParseFloat(tmp, 64)
 		if err != nil {
 			panic(err)
 		}

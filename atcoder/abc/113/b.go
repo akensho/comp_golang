@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -15,20 +16,20 @@ var (
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	_ = intv()
+	row := floats()
+	t, a := row[0], row[1]
+	h := floats()
+	ans := -1
+	m := float64(INF)
+	for i, x := range h {
+		degree := t - x*0.006
+		if math.Abs(a-degree) < m {
+			m = math.Abs(a - degree)
+			ans = i + 1
+		}
 	}
-}
-
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
-	}
-	return (x / y) + 1
+	fmt.Println(ans)
 }
 
 /* template functions */

@@ -16,19 +16,24 @@ var (
 
 func main() {
 	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	n, m := row[0], row[1]
+	food := make([]int, m+1)
+	for i := 0; i < n; i++ {
+		r := ints()
+		for j, v := range r {
+			if j == 0 {
+				continue
+			}
+			food[v]++
+		}
 	}
-}
-
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
+	cnt := 0
+	for _, v := range food {
+		if v == n {
+			cnt++
+		}
 	}
-	return (x / y) + 1
+	fmt.Println(cnt)
 }
 
 /* template functions */
@@ -66,23 +71,6 @@ func ints() []int {
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
-		if err != nil {
-			panic(err)
-		}
-		slice = append(slice, val)
-	}
-	return slice
-}
-
-func floatv() float64 {
-	return floats()[0]
-}
-
-func floats() []float64 {
-	line := strs()
-	slice := make([]float64, 0)
-	for _, tmp := range line {
-		val, err := strconv.ParseFloat(tmp, 64)
 		if err != nil {
 			panic(err)
 		}

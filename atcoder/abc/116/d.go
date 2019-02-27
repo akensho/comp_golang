@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -16,19 +17,31 @@ var (
 
 func main() {
 	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	n, k := row[0], row[1]
+	t := make([]int, n+1)
+	d := make([]int, n+1)
+	sushi := make(map[int][]int)
+	for i := 1; i <= n; i++ {
+		line := ints()
+		t[i], d[i] = line[0], line[1]
+		tmp := sushi[t[i]]
+		tmp = append(tmp, d[i])
+		sushi[t[i]] = tmp
 	}
+	for i, slice := range sushi {
+		sort.Ints(slice)
+		sushi[i] = slice
+	}
+	fmt.Println(sushi)
+	fmt.Println(k)
 }
 
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
+func intReverse(a []int) []int {
+	res := make([]int, 0)
+	for i := 0; i < len(a); i++ {
+		res = append(res, a[len(a)-i-1])
 	}
-	return (x / y) + 1
+	return res
 }
 
 /* template functions */
@@ -66,23 +79,6 @@ func ints() []int {
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
-		if err != nil {
-			panic(err)
-		}
-		slice = append(slice, val)
-	}
-	return slice
-}
-
-func floatv() float64 {
-	return floats()[0]
-}
-
-func floats() []float64 {
-	line := strs()
-	slice := make([]float64, 0)
-	for _, tmp := range line {
-		val, err := strconv.ParseFloat(tmp, 64)
 		if err != nil {
 			panic(err)
 		}

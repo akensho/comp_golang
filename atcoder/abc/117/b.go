@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -15,20 +16,18 @@ var (
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
+	n := intv()
+	l := ints()
+	sort.Ints(l)
+	sum := -l[n-1]
+	for _, v := range l {
+		sum += v
+	}
+	if sum > l[n-1] {
+		fmt.Println("Yes")
 	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+		fmt.Println("No")
 	}
-}
-
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
-	}
-	return (x / y) + 1
 }
 
 /* template functions */
@@ -66,23 +65,6 @@ func ints() []int {
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
-		if err != nil {
-			panic(err)
-		}
-		slice = append(slice, val)
-	}
-	return slice
-}
-
-func floatv() float64 {
-	return floats()[0]
-}
-
-func floats() []float64 {
-	line := strs()
-	slice := make([]float64, 0)
-	for _, tmp := range line {
-		val, err := strconv.ParseFloat(tmp, 64)
 		if err != nil {
 			panic(err)
 		}

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -15,20 +16,32 @@ var (
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	_ = intv()
+	a := ints()
+	sort.Ints(a)
+	ans := 0
+	for {
+		for i, _ := range a {
+			if i == 0 {
+				continue
+			}
+			a[i] = a[i] % a[0]
+		}
+		b := make([]int, 0)
+		for _, v := range a {
+			if v == 0 {
+				continue
+			}
+			b = append(b, v)
+		}
+		if len(b) == 1 {
+			ans = b[0]
+			break
+		}
+		sort.Ints(b)
+		a = b
 	}
-}
-
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
-	}
-	return (x / y) + 1
+	fmt.Println(ans)
 }
 
 /* template functions */
@@ -66,23 +79,6 @@ func ints() []int {
 	slice := make([]int, 0)
 	for _, tmp := range line {
 		val, err := strconv.Atoi(tmp)
-		if err != nil {
-			panic(err)
-		}
-		slice = append(slice, val)
-	}
-	return slice
-}
-
-func floatv() float64 {
-	return floats()[0]
-}
-
-func floats() []float64 {
-	line := strs()
-	slice := make([]float64, 0)
-	for _, tmp := range line {
-		val, err := strconv.ParseFloat(tmp, 64)
 		if err != nil {
 			panic(err)
 		}

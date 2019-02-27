@@ -15,20 +15,23 @@ var (
 )
 
 func main() {
-	row := ints()
-	a, b, x := row[0], row[1], row[2]
-	if a == 0 {
-		fmt.Println(f(b, x))
-	} else {
-		fmt.Println(f(b, x) - f(a-1, x))
+	n := intv()
+	x := make([]float64, n)
+	u := make([]string, n)
+	for i := 0; i < n; i++ {
+		row := strs()
+		x[i], _ = strconv.ParseFloat(row[0], 64)
+		u[i] = row[1]
 	}
-}
-
-func f(x, y int) (res int) {
-	if x == -1 {
-		return 0
+	sum := 0.0
+	for i := 0; i < n; i++ {
+		if u[i] == "JPY" {
+			sum += x[i]
+		} else {
+			sum += x[i] * 380000.0
+		}
 	}
-	return (x / y) + 1
+	fmt.Println(sum)
 }
 
 /* template functions */
