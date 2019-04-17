@@ -15,51 +15,37 @@ var (
 )
 
 func main() {
-	n := intv()
-	queue := make([]string, 0)
-	queue = append(queue, "")
-	all := make([]string, 0)
-	for {
-		now := queue[0]
-		if len(now) > 9 {
-			break
-		}
-		queue = queue[1:]
-		tail := make([]string, 3)
-		tail[0] = now + "3"
-		tail[1] = now + "5"
-		tail[2] = now + "7"
-		queue = append(queue, tail...)
-		all = append(all, tail...)
+	a := make([]int, 5)
+	for i, _ := range a {
+		a[i] = intv()
 	}
-
-	ans := 0
-	for _, v := range all {
-		if check(v) {
-			if x, _ := strconv.Atoi(v); x <= n {
-				ans++
-			}
+	idx := f(a)
+	for i, _ := range a {
+		if i == idx {
+			continue
 		}
+		if a[i]%10 == 0 {
+			continue
+		}
+		ret := 10 - (a[i] % 10)
+		a[i] += ret
 	}
-	fmt.Println(ans)
+	sum := 0
+	for _, val := range a {
+		sum += val
+	}
+	fmt.Println(sum)
 }
 
-func check(s string) bool {
-	f1, f2, f3 := false, false, false
-	for _, str := range s {
-		switch str {
-		case '3':
-			f1 = true
-		case '5':
-			f2 = true
-		case '7':
-			f3 = true
+func f(a []int) int {
+	ret := 0
+	m := a[0] % 10
+	for i, _ := range a {
+		if a[i]%10 < m && a[i]%10 != 0 {
+			ret = i
 		}
 	}
-	if f1 && f2 && f3 {
-		return true
-	}
-	return false
+	return ret
 }
 
 /* template functions */

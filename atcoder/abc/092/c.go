@@ -4,42 +4,51 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
 
 var (
-	in        = bufio.NewReader(os.Stdin)
-	out       = bufio.NewWriter(os.Stdout)
-	MOD       = 1e9 + 7
-	UMOD      = uint64(1e9 + 7)
-	factorial []uint64
-	inverse   []uint64
+	in  = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
+
+type point struct {
+	x, y int
+}
+
+type points []point
+
+func (p points) Len() int {
+	return len(p)
+}
+
+func (p points) Less(i, j int) bool {
+	return p[i].x < p[j].x
+}
+
+func (p points) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}
 
 func main() {
 	n := intv()
-	a := make([]int, n+1)
-	a[0] = 0
-	tmp := ints()
-	for i := 1; i < len(a); i++ {
-		a[i] = tmp[i-1]
+	red := make([]point, n)
+	blue := make([]point, n)
+	for i := 0; i < n; i++ {
+		row := ints()
+		red[i].x, red[i].y = row[0], row[1]
 	}
-	s := make([]int, n)
-	s[0] = abs(a[0] - a[1])
-	for i := 1; i < len(s); i++ {
-		s[i] = s[i-1] + abs(a[i+1]-a[i])
+	for i := 0; i < n; i++ {
+		row := ints()
+		blue[i].x, blue[i].y = row[0], row[1]
 	}
-	fmt.Println(s)
-	for i := 1; i <= n; i++ {
-		cost := 0
-		if i == n {
-			cost = s[n-2] + abs(a[n-1]-a[0])
-		} else {
-			cost = s[i+1] + abs(a[i-1]-a[i+1]) + abs(a[n]-a[0])
-		}
-		fmt.Println(cost)
-	}
+	sort.Sort(points(red))
+	sort.Sort(points(blue))
+	fmt.Println(red)
+	fmt.Println(blue)
 }
 
 /* template functions */
@@ -85,6 +94,23 @@ func ints() []int {
 	return slice
 }
 
+func floatv() float64 {
+	return floats()[0]
+}
+
+func floats() []float64 {
+	line := strs()
+	slice := make([]float64, 0)
+	for _, tmp := range line {
+		val, err := strconv.ParseFloat(tmp, 64)
+		if err != nil {
+			panic(err)
+		}
+		slice = append(slice, val)
+	}
+	return slice
+}
+
 func max(x, y int) int {
 	if x > y {
 		return x
@@ -106,4 +132,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v\n", v)
+	}
 }

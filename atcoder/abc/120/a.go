@@ -15,51 +15,15 @@ var (
 )
 
 func main() {
-	n := intv()
-	queue := make([]string, 0)
-	queue = append(queue, "")
-	all := make([]string, 0)
-	for {
-		now := queue[0]
-		if len(now) > 9 {
-			break
-		}
-		queue = queue[1:]
-		tail := make([]string, 3)
-		tail[0] = now + "3"
-		tail[1] = now + "5"
-		tail[2] = now + "7"
-		queue = append(queue, tail...)
-		all = append(all, tail...)
+	row := ints()
+	a, b, c := row[0], row[1], row[2]
+	if b >= a*c {
+		fmt.Println(c)
+		return
+	} else {
+		fmt.Println(b / a)
+		return
 	}
-
-	ans := 0
-	for _, v := range all {
-		if check(v) {
-			if x, _ := strconv.Atoi(v); x <= n {
-				ans++
-			}
-		}
-	}
-	fmt.Println(ans)
-}
-
-func check(s string) bool {
-	f1, f2, f3 := false, false, false
-	for _, str := range s {
-		switch str {
-		case '3':
-			f1 = true
-		case '5':
-			f2 = true
-		case '7':
-			f3 = true
-		}
-	}
-	if f1 && f2 && f3 {
-		return true
-	}
-	return false
 }
 
 /* template functions */

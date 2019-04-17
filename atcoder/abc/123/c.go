@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -16,50 +17,20 @@ var (
 
 func main() {
 	n := intv()
-	queue := make([]string, 0)
-	queue = append(queue, "")
-	all := make([]string, 0)
-	for {
-		now := queue[0]
-		if len(now) > 9 {
-			break
-		}
-		queue = queue[1:]
-		tail := make([]string, 3)
-		tail[0] = now + "3"
-		tail[1] = now + "5"
-		tail[2] = now + "7"
-		queue = append(queue, tail...)
-		all = append(all, tail...)
+	a := make([]int, 5)
+	for i, _ := range a {
+		a[i] = intv()
 	}
-
-	ans := 0
-	for _, v := range all {
-		if check(v) {
-			if x, _ := strconv.Atoi(v); x <= n {
-				ans++
-			}
-		}
+	sort.Ints(a)
+	if n <= a[0] {
+		fmt.Println(5)
+		return
 	}
-	fmt.Println(ans)
-}
-
-func check(s string) bool {
-	f1, f2, f3 := false, false, false
-	for _, str := range s {
-		switch str {
-		case '3':
-			f1 = true
-		case '5':
-			f2 = true
-		case '7':
-			f3 = true
-		}
+	if n%a[0] == 0 {
+		fmt.Println(n/a[0] + 4)
+	} else {
+		fmt.Println(n/a[0] + 5)
 	}
-	if f1 && f2 && f3 {
-		return true
-	}
-	return false
 }
 
 /* template functions */

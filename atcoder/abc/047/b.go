@@ -9,85 +9,27 @@ import (
 )
 
 var (
-	in        = bufio.NewReader(os.Stdin)
-	out       = bufio.NewWriter(os.Stdout)
-	MOD       = 1e9 + 7
-	UMOD      = uint64(1e9 + 7)
-	factorial []uint64
-	inverse   []uint64
-	f         [][]bool
+	in  = bufio.NewReader(os.Stdin)
+	out = bufio.NewWriter(os.Stdout)
+	INF = (1 << 32) - 1
 )
 
 func main() {
 	row := ints()
 	w, h, n := row[0], row[1], row[2]
-	f = make([][]bool, 101)
-	for i, _ := range f {
-		f[i] = make([]bool, 101)
+	board := make([][]bool, h)
+	for i := 0; i < len(board); i++ {
+		board[i] = make([]bool, w)
 	}
+	var_dump(board)
+	x := make([]int, n)
+	y := make([]int, n)
+	z := make([]int, n)
 	for i := 0; i < n; i++ {
 		row = ints()
-		x, y, a := row[0], row[1], row[2]
-		switch a {
-		case 1:
-			left(x)
-		case 2:
-			right(x)
-		case 3:
-			down(y)
-		case 4:
-			up(y)
-		}
+		x[i], y[i], z[i] = row[0], row[1], row[2]
 	}
-	res := 0
-	for i := 0; i <= h; i++ {
-		for j := 0; j <= w; j++ {
-			if !f[i][j] {
-				res++
-			}
-		}
-	}
-	fmt.Println(res)
-}
 
-func left(x int) {
-	for i := 0; i < 101; i++ {
-		for j := 0; j < 101; j++ {
-			if j <= x {
-				f[i][j] = true
-			}
-		}
-	}
-}
-
-func right(x int) {
-	for i := 0; i < 101; i++ {
-		for j := 0; j < 101; j++ {
-			if j >= x {
-				f[i][j] = true
-			}
-		}
-	}
-}
-
-func down(y int) {
-	for i := 0; i < 101; i++ {
-		for j := 0; j < 101; j++ {
-			if i <= y {
-				f[i][j] = true
-			}
-		}
-	}
-}
-
-func up(y int) {
-	for i := 0; i < 101; i++ {
-		for j := 0; j < 101; j++ {
-			if i >= y {
-				f[i][j] = true
-			}
-		}
-	}
 }
 
 /* template functions */
@@ -133,6 +75,23 @@ func ints() []int {
 	return slice
 }
 
+func floatv() float64 {
+	return floats()[0]
+}
+
+func floats() []float64 {
+	line := strs()
+	slice := make([]float64, 0)
+	for _, tmp := range line {
+		val, err := strconv.ParseFloat(tmp, 64)
+		if err != nil {
+			panic(err)
+		}
+		slice = append(slice, val)
+	}
+	return slice
+}
+
 func max(x, y int) int {
 	if x > y {
 		return x
@@ -154,4 +113,10 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func var_dump(value ...interface{}) {
+	for _, v := range value {
+		fmt.Printf("%#v\n", v)
+	}
 }

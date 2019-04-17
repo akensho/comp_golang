@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -18,34 +17,28 @@ var (
 func main() {
 	s := strv()
 	t := strv()
-	ss := make([]string, 0)
-	tt := make([]string, 0)
-	for _, v := range s {
-		ss = append(ss, string(v))
-	}
-	for _, v := range t {
-		tt = append(tt, string(v))
-	}
-	sort.Strings(ss)
-	sort.Strings(tt)
-	fmt.Println(ss)
-	fmt.Println(tt)
 	conv := make(map[string]string)
-	for i := 0; i < len(ss); i++ {
-		if ss[i] == tt[i] {
+	set := make(map[string]bool)
+	for i, _ := range s {
+		if s[i] == t[i] {
 			continue
 		}
-		if val, ok := conv[ss[i]]; ok {
-			if val == tt[i] {
-				break
+		c1, c2 := string(s[i]), string(t[i])
+		if value, ok := conv[c1]; ok {
+			if c2 != value {
+				fmt.Println("No")
+				return
 			}
-			fmt.Println("No")
-			return
+		} else {
+			if !set[c2] {
+				conv[c1] = c2
+				set[c2] = true
+			} else {
+				fmt.Println("No")
+				return
+			}
 		}
-		conv[ss[i]] = tt[i]
-		conv[tt[i]] = ss[i]
 	}
-	//	fmt.Println(conv)
 	fmt.Println("Yes")
 }
 
